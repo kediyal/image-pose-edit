@@ -1,0 +1,35 @@
+[project]
+version = "0.1.0"
+
+target-version = "py312"
+
+[tool.ruff]
+line-length = 79
+select = [
+    "F",    # Pyflakes rules
+    "E4",   # Subset of pycodestyle error rules
+    "E7",   # Subset of pycodestyle error rules
+    "E9",   # Subset of pycodestyle error rules
+    "W",    # Pycodestyle warning rules
+    "S",    # Security rules (to replace Bandit)
+    "I",    # isort rules
+    "B",    # flake8-bugbear rules
+    "SIM"   # flake8-simplify rules
+]
+ignore = []
+
+# Allow auto-fixing of all enabled rules when using the `--fix` option.
+fixable = ["ALL"]
+unfixable = [] # Specify rules that cannot be auto-fixed, if any.
+
+[tool.ruff.format]
+# Use spaces for indentation, in line with Black's formatting style.
+indent-style = "space"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v0.0.1"
+version_scheme = "pep440"
+version_provider = "pep621"
+update_changelog_on_bump = true
+major_version_zero = true
