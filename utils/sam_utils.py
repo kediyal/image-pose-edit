@@ -176,41 +176,42 @@ def save_masked_image(original_image_path, masks, output_image_path):
     original_image = cv2.imread(original_image_path)
     original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
 
-    # Create a transparent RGBA image for the masks
+    # Get dimensions of the image
     height, width = original_image.shape[:2]
+
+    # Create a transparent RGBA image for the mask overlay
     mask_image = np.zeros((height, width, 4), dtype=np.float32)
 
-    # Sort masks by area
+    # Sort masks by area if available
     if isinstance(masks, list) and "area" in masks[0]:
         sorted_masks = sorted(masks, key=(lambda x: x["area"]), reverse=True)
     else:
         sorted_masks = [{"segmentation": masks[0], "area": np.sum(masks[0])}]
 
-    # Apply each mask with red color
+    # Apply red color mask with transparency
     red_color = np.array([1.0, 0.0, 0.0, 0.5])  # Red color with 50% opacity
     for mask in sorted_masks:
         mask_image[mask["segmentation"]] = red_color
 
-    # Apply each mask with a random color
-    # for mask in sorted_masks:
-    #     color = np.concatenate([np.random.random(3), [0.35]])  # Random color with 35% opacity
-    #     mask_image[mask['segmentation']] = color
-
-    # Convert mask_image to uint8 and remove alpha channel
+    # Convert mask image to uint8 format and remove alpha channel
     mask_image_rgb = (mask_image[:, :, :3] * 255).astype(np.uint8)
 
-    # Blend the original image with the mask image
+    # Blend the original image with the mask overlay
     blended_image = cv2.addWeighted(
         original_image, 0.7, mask_image_rgb, 0.3, 0
     )
 
-    # Create a figure and display the blended image
-    plt.figure(figsize=(10, 10))
-    plt.imshow(blended_image)
-    plt.axis("off")
+    # Create the output directory if it doesn't exist
+    output_dir = os.path.dirname(output_image_path)
+    if not os.path.exists(output_dir):
+        print(
+            f"The directory at {output_dir} does not exist. Creating the directory..."
+        )
+        os.makedirs(output_dir, exist_ok=True)
 
-    # Save the figure
-    plt.savefig(output_image_path, bbox_inches="tight", pad_inches=0)
-    plt.close()
+    # Save the blended image directly using OpenCV
+    cv2.imwrite(
+        output_image_path, cv2.cvtColor(blended_image, cv2.COLOR_RGB2BGR)
+    )
 
     print(f"Masked image saved at {output_image_path}")
