@@ -163,3 +163,6 @@ cython_debug/
 
 # models/
 models/*
+
+# Images
+output/*
