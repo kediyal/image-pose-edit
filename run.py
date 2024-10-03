@@ -61,8 +61,8 @@ model_url = MODEL_CONFIG["url"]
 download_if_model_not_exists(model_path, model_url)
 
 # Download Zero123
-iteration = MODEL_CONFIG["zero123_iteration"]
-download_zero123_checkpoints(iteration)
+# iteration = MODEL_CONFIG["zero123_iteration"]
+# download_zero123_checkpoints(iteration)
 
 
 def main():
