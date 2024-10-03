@@ -164,6 +164,8 @@ cython_debug/
 # models/
 models/*
 zero123/*
+CLIP/*
+taming-transformers/*
 
 # Images
 output/*
