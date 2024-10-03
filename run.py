@@ -4,6 +4,7 @@ import os
 from settings import MODEL_CONFIG
 from utils.sam_utils import (
     download_if_model_not_exists,
+    download_zero123_checkpoints,
     generate_masks,
     load_sam,
     save_masked_image,
@@ -29,6 +30,19 @@ def parse_args():
         help="Object class to segment (e.g., chair).",
         dest="object_class",
     )
+
+    # parser.add_argument(
+    #     "--azimuth",
+    #     type=float,
+    #     help="Azimuth angle change (optional).",
+    # )
+
+    # parser.add_argument(
+    #     "--polar",
+    #     type=float,
+    #     help="Polar angle change (optional).",
+    # )
+
     parser.add_argument(
         "--output",
         type=str,
@@ -45,6 +59,10 @@ model_url = MODEL_CONFIG["url"]
 
 # Download the model if it doesn't already exist
 download_if_model_not_exists(model_path, model_url)
+
+# Download Zero123
+iteration = MODEL_CONFIG["zero123_iteration"]
+download_zero123_checkpoints(iteration)
 
 
 def main():
