@@ -86,6 +86,18 @@ Replace `./path/to/image.jpg` with the input image path, `"object_name"` with th
 - It's going to take me a while to understand Zero123's codebase.
 - This task is still under development.
 
+## Results
+### Input Image
+![Input Image](images/chair.jpg)
+
+### Output Image
+[![chair-masked.jpg](https://i.postimg.cc/htz575C5/chair-masked.jpg)](https://postimg.cc/xXQRwtVv)
+
+### Command Used
+```bash
+python run.py --image images/chair.jpg --class "chair" --output output/chair-masked.jpg
+```
+
 ## Challenges
 
 - Limited object detection capabilities due to the YOLO model's training dataset
