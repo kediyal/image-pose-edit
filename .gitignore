@@ -163,6 +163,7 @@ cython_debug/
 
 # models/
 models/*
+zero123/*
 
 # Images
 output/*
