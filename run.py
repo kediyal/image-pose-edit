@@ -2,7 +2,12 @@ import argparse
 import os
 
 from settings import MODEL_CONFIG
-from utils.sam_utils import download_if_model_not_exists
+from utils.sam_utils import (
+    download_if_model_not_exists,
+    generate_masks,
+    load_sam,
+    save_masked_image,
+)
 
 
 # Define the function to handle command line arguments
@@ -22,6 +27,7 @@ def parse_args():
         type=str,
         required=True,
         help="Object class to segment (e.g., chair).",
+        dest="object_class",
     )
     parser.add_argument(
         "--output",
@@ -47,6 +53,16 @@ def main():
     # Ensure the path passed (via args) are valid
     if not os.path.exists(args.image):
         raise FileNotFoundError(f"Image file {args.image} not found.")
+
+    # Load SAM
+    print("Loading SAM...")
+    sam = load_sam(model_name, model_path)
+
+    masks = generate_masks(sam, args.image, 1, args.object_class)
+
+    print(masks)
+
+    save_masked_image(args.image, masks, args.output)
 
 
 if __name__ == "__main__":
