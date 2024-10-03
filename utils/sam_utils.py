@@ -60,6 +60,19 @@ def download_if_model_not_exists(model_path, model_url):
         print(f"Model already exists at {model_path}. Using it.")
 
 
+def download_zero123_checkpoints(iteration):
+    """
+    Downloads a Zero123 checkpoint from the available iterations.
+    """
+    base_url = MODEL_CONFIG["zero123_baseurl"]
+    checkpoint_name = f"{iteration}.ckpt"
+    model_url = f"{base_url}{checkpoint_name}"
+    model_path = f"./models/zero123/checkpoints/{checkpoint_name}"
+
+    # Call the download function
+    download_if_model_not_exists(model_path, model_url)
+
+
 def load_sam(model_name, model_path):
     """
     Load the SAM model from a model type and model path.
